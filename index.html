@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllSkills - OpenClaw Skill Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: center;
+        }
+        
+        select, input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .skill-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .skill-title {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .skill-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .rating {
+            color: #ffa500;
+            font-size: 1.2em;
+        }
+        
+        .safety-rating {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .safe {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .unsafe {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .vote-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .safe-btn {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .unsafe-btn {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .stars {
+            display: flex;
+            gap: 3px;
+            margin-top: 10px;
+        }
+        
+        .star {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        
+        .star.active {
+            color: #ffa500;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .page-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .repo-source {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦞 AllSkills</h1>
+            <p class="subtitle">OpenClaw Skill Marketplace - Discover, Rate & Share Skills</p>
+        </header>
+
+        <div class="controls">
+            <div class="filter-controls">
+                <select id="sort-select">
+                    <option value="popularity">Sort by Popularity</option>
+                    <option value="rating">Sort by Rating</option>
+                    <option value="downloads">Sort by Downloads</option>
+                    <option value="safety">Sort by Safety</option>
+                    <option value="newest">Sort by Newest</option>
+                </select>
+                
+                <select id="safety-filter">
+                    <option value="all">All Safety Levels</option>
+                    <option value="safe">Safe Only</option>
+                    <option value="unsafe">Unsafe Only</option>
+                </select>
+                
+                <select id="min-rating">
+                    <option value="0">Any Rating</option>
+                    <option value="1">★☆☆☆☆ & Up</option>
+                    <option value="2">★★☆☆☆ & Up</option>
+                    <option value="3">★★★☆☆ & Up</option>
+                    <option value="4">★★★★☆ & Up</option>
+                    <option value="5">★★★★★ Only</option>
+                </select>
+                
+                <input type="text" id="search-input" placeholder="Search skills...">
+            </div>
+        </div>
+
+        <div class="skills-grid" id="skills-container">
+            <!-- Skill cards will be dynamically populated -->
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration
+        const skillsData = [
+            {
+                id: 1,
+                name: "Apple Calendar",
+                description: "Apple Calendar.app integration for macOS. CRUD operations for events, search, and multi-calendar support.",
+                author: "jurakosic-jpg",
+                repo: "apple-calendar",
+                stars: 4.5,
+                downloads: 1250,
+                installs: 890,
+                safety: "safe",
+                rating: 4.7,
+                tags: ["calendar", "macos", "events"],
+                lastUpdated: "2026-02-05"
+            },
+            {
+                id: 2,
+                name: "Twitter/X CLI",
+                description: "X/Twitter CLI for reading, searching, posting, and engagement via cookies.",
+                author: "openclaw",
+                repo: "bird",
+                stars: 4.2,
+                downloads: 3420,
+                installs: 2100,
+                safety: "safe",
+                rating: 4.3,
+                tags: ["twitter", "social", "posting"],
+                lastUpdated: "2026-02-04"
+            },
+            {
+                id: 3,
+                name: "GitHub Integration",
+                description: "Interact with GitHub using the gh CLI. Issue, PR, CI run management.",
+                author: "github",
+                repo: "github-skills",
+                stars: 4.8,
+                downloads: 5670,
+                installs: 4200,
+                safety: "safe",
+                rating: 4.9,
+                tags: ["github", "development", "ci/cd"],
+                lastUpdated: "2026-02-03"
+            },
+            {
+                id: 4,
+                name: "Weather Data",
+                description: "Get current weather and forecasts (no API key required).",
+                author: "openclaw",
+                repo: "weather",
+                stars: 3.9,
+                downloads: 2100,
+                installs: 1800,
+                safety: "safe",
+                rating: 4.1,
+                tags: ["weather", "forecast", "climate"],
+                lastUpdated: "2026-02-02"
+            },
+            {
+                id: 5,
+                name: "PDF Editor",
+                description: "Edit PDFs with natural-language instructions using nano-pdf CLI.",
+                author: "pdf-tools",
+                repo: "nano-pdf",
+                stars: 4.6,
+                downloads: 1890,
+                installs: 1500,
+                safety: "safe",
+                rating: 4.4,
+                tags: ["pdf", "documents", "editing"],
+                lastUpdated: "2026-02-01"
+            },
+            {
+                id: 6,
+                name: "RSS Feed Monitor",
+                description: "Monitor blogs and RSS/Atom feeds for updates using blogwatcher CLI.",
+                author: "feed-monitor",
+                repo: "blogwatcher",
+                stars: 4.1,
+                downloads: 980,
+                installs: 750,
+                safety: "safe",
+                rating: 4.0,
+                tags: ["rss", "feeds", "monitoring"],
+                lastUpdated: "2026-01-31"
+            },
+            {
+                id: 7,
+                name: "Desktop Automation",
+                description: "Advanced desktop automation with mouse, keyboard, and screen control.",
+                author: "automation",
+                repo: "desktop-control",
+                stars: 4.7,
+                downloads: 1450,
+                installs: 1100,
+                safety: "safe",
+                rating: 4.6,
+                tags: ["automation", "desktop", "ui"],
+                lastUpdated: "2026-01-30"
+            },
+            {
+                id: 8,
+                name: "Image Analysis",
+                description: "Analyze images with configured image models for AI-powered insights.",
+                author: "vision",
+                repo: "image-analysis",
+                stars: 4.4,
+                downloads: 2340,
+                installs: 1900,
+                safety: "safe",
+                rating: 4.5,
+                tags: ["vision", "ai", "analysis"],
+                lastUpdated: "2026-01-29"
+            }
+        ];
+
+        // Function to render skill cards
+        function renderSkills(skills) {
+            const container = document.getElementById('skills-container');
+            container.innerHTML = '';
+            
+            skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                
+                // Calculate star display
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= Math.floor(skill.stars)) {
+                        starsHtml += '★';
+                    } else if (i - 0.5 <= skill.stars) {
+                        starsHtml += '☆';
+                    } else {
+                        starsHtml += '☆';
+                    }
+                }
+                
+                card.innerHTML = `
+                    <div class="skill-header">
+                        <div class="skill-title">${skill.name}</div>
+                        <div class="rating">${starsHtml} (${skill.stars})</div>
+                    </div>
+                    
+                    <p>${skill.description}</p>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">⭐ ${skill.rating}/5</div>
+                        <div class="stat">📥 ${skill.downloads.toLocaleString()}</div>
+                        <div class="stat">🔧 ${skill.installs.toLocaleString()}</div>
+                        <div class="stat">📅 ${skill.lastUpdated}</div>
+                    </div>
+                    
+                    <div class="safety-rating ${skill.safety}">
+                        ${skill.safety.toUpperCase()}
+                    </div>
+                    
+                    <div class="tags" style="margin: 10px 0; font-size: 0.8em; color: #666;">
+                        ${skill.tags.map(tag => `<span style="background: #f0f0f0; padding: 2px 6px; border-radius: 10px; margin-right: 5px;">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <div class="repo-source">
+                        Repo: github.com/${skill.author}/${skill.repo}
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="vote-btn safe-btn" onclick="vote(${skill.id}, 'safe')">SAFE</button>
+                        <button class="vote-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">UNSAFE</button>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <label>Rate this skill:</label>
+                        <div class="stars" id="stars-${skill.id}">
+                            ${generateStars(skill.id)}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Generate star rating UI
+        function generateStars(skillId) {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<span class="star" onclick="rateSkill(${skillId}, ${i})" data-rating="${i}">☆</span>`;
+            }
+            return starsHtml;
+        }
+        
+        // Vote function
+        function vote(skillId, voteType) {
+            alert(`Voted ${voteType.toUpperCase()} for skill ${skillId}`);
+            // In real implementation, this would make an API call
+        }
+        
+        // Rate skill function
+        function rateSkill(skillId, rating) {
+            // Update the star display
+            const starsContainer = document.getElementById(`stars-${skillId}`);
+            const stars = starsContainer.querySelectorAll('.star');
+            
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.textContent = '★';
+                    star.classList.add('active');
+                } else {
+                    star.textContent = '☆';
+                    star.classList.remove('active');
+                }
+            });
+            
+            alert(`Rated skill ${skillId} with ${rating} stars`);
+            // In real implementation, this would make an API call
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSkills(skillsData);
+            
+            // Add event listeners for filters
+            document.getElementById('sort-select').addEventListener('change', function() {
+                // In real implementation, this would sort the skills
+                alert('Sorting by: ' + this.value);
+            });
+            
+            document.getElementById('safety-filter').addEventListener('change', function() {
+                // In real implementation, this would filter the skills
+                alert('Filtering by safety: ' + this.value);
+            });
+            
+            document.getElementById('min-rating').addEventListener('change', function() {
+                // In real implementation, this would filter by rating
+                alert('Filtering by minimum rating: ' + this.value);
+            });
+            
+            document.getElementById('search-input').addEventListener('input', function() {
+                // In real implementation, this would search the skills
+                console.log('Searching for: ' + this.value);
+            });
+        });
+    </script>
+</body>
+</html>
