@@ -165,13 +165,6 @@
             flex-wrap: wrap;
         }
         
-        .voting-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
         .action-btn {
             flex: 1;
             min-width: 80px;
@@ -181,6 +174,54 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.9em;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #44475a;
+            background: #21222c;
+            color: #f8f8f2;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        
+        .comment-submit-btn {
+            background: #bd93f9;
+            color: #282a36;
+            width: 100%;
+        }
+        
+        .comments-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #44475a;
+        }
+        
+        .comments-display {
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .comment {
+            background: #44475a;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            color: #50fa7b;
+        }
+        
+        .comment-date {
+            font-size: 0.8em;
+            color: #6272a4;
+            float: right;
         }
         
         .download-btn {
@@ -377,22 +418,8 @@
         // Function to simulate fetching skills with GitHub validation
         async function fetchValidatedSkills() {
             // Mock data representing skills that actually exist on GitHub
+            // Excluding those with empty or non-existent repositories
             const mockSkills = [
-                {
-                    id: 1,
-                    name: "Apple Calendar",
-                    description: "Apple Calendar.app integration for macOS. CRUD operations for events, search, and multi-calendar support.",
-                    author: "openclaw",
-                    repo: "apple-calendar",
-                    stars: 42,
-                    forks: 18,
-                    downloads: 12500,
-                    installs: 8900,
-                    safety: "safe",
-                    rating: 4.7,
-                    tags: ["calendar", "macos", "events"],
-                    lastUpdated: "2026-01-15"
-                },
                 {
                     id: 2,
                     name: "Twitter/X CLI",
@@ -467,6 +494,21 @@
                     rating: 4.0,
                     tags: ["rss", "feeds", "monitoring"],
                     lastUpdated: "2025-12-30"
+                },
+                {
+                    id: 7,
+                    name: "Desktop Automation",
+                    description: "Advanced desktop automation with mouse, keyboard, and screen control.",
+                    author: "openclaw",
+                    repo: "desktop-control",
+                    stars: 45,
+                    forks: 12,
+                    downloads: 2450,
+                    installs: 1900,
+                    safety: "safe",
+                    rating: 4.6,
+                    tags: ["automation", "desktop", "ui"],
+                    lastUpdated: "2026-01-18"
                 }
             ];
             
@@ -485,22 +527,9 @@
                 const card = document.createElement('div');
                 card.className = 'skill-card';
                 
-                // Calculate star display
-                let starsHtml = '';
-                for (let i = 1; i <= 5; i++) {
-                    if (i <= Math.floor(skill.stars)) {
-                        starsHtml += '★';
-                    } else if (i - 0.5 <= skill.stars) {
-                        starsHtml += '☆';
-                    } else {
-                        starsHtml += '☆';
-                    }
-                }
-                
                 card.innerHTML = `
                     <div class="skill-header">
                         <div class="skill-title">${skill.name}</div>
-                        <div class="rating">${starsHtml} (${skill.stars})</div>
                     </div>
                     
                     <div class="skill-description">
@@ -535,16 +564,14 @@
                         <button class="action-btn github-btn" onclick="viewGithub('${skill.repo}', '${skill.author}')">🔗 GITHUB</button>
                     </div>
                     
-                    <div class="voting-actions">
-                        <button class="action-btn safe-btn" onclick="vote(${skill.id}, 'safe')">✅ SAFE</button>
-                        <button class="action-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">❌ UNSAFE</button>
+                    <div class="comments-section">
+                        <h4>Comments:</h4>
+                        <textarea class="comment-input" placeholder="Share your experience with this skill..." rows="3"></textarea>
+                        <button class="action-btn comment-submit-btn" onclick="submitComment(${skill.id})">Submit Comment</button>
                     </div>
                     
-                    <div style="margin-top: 10px;">
-                        <label>Rate this skill:</label>
-                        <div class="stars" id="stars-${skill.id}">
-                            ${generateStars(skill.id)}
-                        </div>
+                    <div class="comments-display" id="comments-${skill.id}">
+                        <!-- Comments will be displayed here -->
                     </div>
                 `;
                 
@@ -552,16 +579,6 @@
             });
         }
         
-        // Generate star rating UI
-        function generateStars(skillId) {
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHtml += `<span class="star" onclick="rateSkill(${skillId}, ${i})" data-rating="${i}">☆</span>`;
-            }
-            return starsHtml;
-        }
-        
-        // Download skill function
         // Download skill function
         function downloadSkill(repo, author) {
             // All OpenClaw skills are in the main openclaw repo under skills/ directory
@@ -578,30 +595,31 @@
             window.open(githubUrl, '_blank');
         }
         
-        // Vote function
-        function vote(skillId, voteType) {
-            alert(`Voted ${voteType.toUpperCase()} for skill ${skillId}`);
-            // In real implementation, this would make an API call
-        }
-        
-        // Rate skill function
-        function rateSkill(skillId, rating) {
-            // Update the star display
-            const starsContainer = document.getElementById(`stars-${skillId}`);
-            const stars = starsContainer.querySelectorAll('.star');
-            
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.textContent = '★';
-                    star.classList.add('active');
-                } else {
-                    star.textContent = '☆';
-                    star.classList.remove('active');
+        // Submit comment function
+        function submitComment(skillId) {
+            const commentInput = document.querySelector(`#comments-${skillId}`).previousElementSibling.querySelector('.comment-input');
+            if (commentInput && commentInput.value.trim() !== '') {
+                const commentText = commentInput.value.trim();
+                const commentDisplay = document.querySelector(`#comments-${skillId}`);
+                
+                if (commentDisplay) {
+                    const now = new Date();
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+                    commentElement.innerHTML = `
+                        <div class="comment-author">User</div>
+                        <div class="comment-date">${now.toLocaleDateString()}</div>
+                        <div style="clear: both;"></div>
+                        <div>${commentText}</div>
+                    `;
+                    commentDisplay.prepend(commentElement);
+                    commentInput.value = '';
                 }
-            });
-            
-            alert(`Rated skill ${skillId} with ${rating} stars`);
-            // In real implementation, this would make an API call
+                
+                alert('Comment submitted!');
+            } else {
+                alert('Please enter a comment');
+            }
         }
         
         // Initialize the page
