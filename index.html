@@ -325,7 +325,7 @@
                 id: 1,
                 name: "Apple Calendar",
                 description: "Apple Calendar.app integration for macOS. CRUD operations for events, search, and multi-calendar support.",
-                author: "jurakosic-jpg",
+                author: "openclaw",
                 repo: "apple-calendar",
                 stars: 4.5,
                 downloads: 1250,
@@ -517,15 +517,17 @@
         
         // Download skill function
         function downloadSkill(repo, author) {
-            // Construct the download URL from author and repo
-            const downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
+            // Most OpenClaw skills are in the main openclaw repo under skills/ directory
+            // So we'll download the main repo which contains all skills
+            const downloadUrl = 'https://github.com/openclaw/openclaw/archive/main.zip';
             window.open(downloadUrl, '_blank');
         }
         
         // View on GitHub function
         function viewGithub(repo, author) {
-            // Construct the GitHub URL from author and repo
-            const githubUrl = `https://github.com/${author}/${repo}`;
+            // Most OpenClaw skills are in the main openclaw repo under skills/ directory
+            // So we'll link to the specific skill folder in the main repo
+            const githubUrl = `https://github.com/openclaw/openclaw/tree/main/skills/${repo}`;
             window.open(githubUrl, '_blank');
         }
         
