@@ -562,14 +562,19 @@
         }
         
         // Download skill function
+        // Download skill function
         function downloadSkill(repo, author) {
-            const downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
+            // All OpenClaw skills are in the main openclaw repo under skills/ directory
+            // So we'll download the main repo which contains all skills
+            const downloadUrl = 'https://github.com/openclaw/openclaw/archive/refs/heads/main.zip';
             window.open(downloadUrl, '_blank');
         }
         
         // View on GitHub function
         function viewGithub(repo, author) {
-            const githubUrl = `https://github.com/${author}/${repo}`;
+            // All OpenClaw skills are in the main openclaw repo under skills/ directory
+            // So we'll link to the specific skill folder in the main repo
+            const githubUrl = `https://github.com/openclaw/openclaw/tree/main/skills/${repo}`;
             window.open(githubUrl, '_blank');
         }
         
