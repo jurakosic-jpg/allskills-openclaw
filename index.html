@@ -13,8 +13,8 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            color: #e0e0e0;
             line-height: 1.6;
         }
         
@@ -25,31 +25,49 @@
         }
         
         header {
-            background: white;
+            background: #1e1e2e;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             text-align: center;
             margin-bottom: 30px;
+            border: 1px solid #44475a;
         }
         
         h1 {
             font-size: 2.5em;
-            color: #667eea;
+            color: #bd93f9;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff79c6, #bd93f9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #282a36;
         }
         
         .subtitle {
             font-size: 1.2em;
-            color: #666;
+            color: #6272a4;
         }
         
         .controls {
-            background: white;
+            background: #282a36;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             margin-bottom: 30px;
+            border: 1px solid #44475a;
         }
         
         .filter-controls {
@@ -61,28 +79,32 @@
         
         select, input {
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #44475a;
             border-radius: 8px;
             font-size: 16px;
             width: 100%;
+            background: #21222c;
+            color: #f8f8f2;
         }
         
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
         }
         
         .skill-card {
-            background: white;
+            background: #282a36;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             transition: transform 0.3s;
+            border: 1px solid #44475a;
         }
         
         .skill-card:hover {
             transform: translateY(-5px);
+            border-color: #bd93f9;
         }
         
         .skill-header {
@@ -94,7 +116,7 @@
         
         .skill-title {
             font-size: 1.3em;
-            color: #667eea;
+            color: #50fa7b;
             font-weight: bold;
         }
         
@@ -103,7 +125,7 @@
             gap: 15px;
             margin-bottom: 15px;
             font-size: 0.9em;
-            color: #666;
+            color: #6272a4;
         }
         
         .stat {
@@ -113,7 +135,7 @@
         }
         
         .rating {
-            color: #ffa500;
+            color: #ffb86c;
             font-size: 1.2em;
         }
         
@@ -126,38 +148,51 @@
         }
         
         .safe {
-            background: #d4edda;
-            color: #155724;
+            background: #50fa7b;
+            color: #282a36;
         }
         
         .unsafe {
-            background: #f8d7da;
-            color: #721c24;
+            background: #ff5555;
+            color: #282a36;
         }
         
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
         
-        .vote-btn {
+        .action-btn {
             flex: 1;
+            min-width: 80px;
             padding: 8px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .download-btn {
+            background: #8be9fd;
+            color: #282a36;
+        }
+        
+        .github-btn {
+            background: #6272a4;
+            color: #f8f8f2;
         }
         
         .safe-btn {
-            background: #d4edda;
-            color: #155724;
+            background: #50fa7b;
+            color: #282a36;
         }
         
         .unsafe-btn {
-            background: #f8d7da;
-            color: #721c24;
+            background: #ff5555;
+            color: #f8f8f2;
         }
         
         .stars {
@@ -167,13 +202,13 @@
         }
         
         .star {
-            color: #ccc;
+            color: #6272a4;
             cursor: pointer;
             font-size: 1.2em;
         }
         
         .star.active {
-            color: #ffa500;
+            color: #ffb86c;
         }
         
         .pagination {
@@ -185,31 +220,46 @@
         
         .page-btn {
             padding: 10px 15px;
-            border: 1px solid #ddd;
-            background: white;
+            border: 1px solid #44475a;
+            background: #282a36;
             border-radius: 5px;
             cursor: pointer;
+            color: #f8f8f2;
         }
         
         .page-btn.active {
-            background: #667eea;
-            color: white;
+            background: #bd93f9;
+            color: #282a36;
         }
         
         .repo-source {
-            background: #f8f9fa;
+            background: #44475a;
             padding: 10px;
             border-radius: 8px;
             margin-top: 10px;
             font-size: 0.8em;
-            color: #666;
+            color: #f8f8f2;
+        }
+        
+        .tags {
+            margin: 10px 0;
+            font-size: 0.8em;
+            color: #bd93f9;
+        }
+        
+        .tag {
+            background: #44475a;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-right: 5px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🦞 AllSkills</h1>
+            <h1><span class="logo">🦞</span> AllSkills</h1>
             <p class="subtitle">OpenClaw Skill Marketplace - Discover, Rate & Share Skills</p>
         </header>
 
@@ -411,8 +461,8 @@
                         ${skill.safety.toUpperCase()}
                     </div>
                     
-                    <div class="tags" style="margin: 10px 0; font-size: 0.8em; color: #666;">
-                        ${skill.tags.map(tag => `<span style="background: #f0f0f0; padding: 2px 6px; border-radius: 10px; margin-right: 5px;">${tag}</span>`).join('')}
+                    <div class="tags">
+                        ${skill.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
                     
                     <div class="repo-source">
@@ -420,8 +470,10 @@
                     </div>
                     
                     <div class="actions">
-                        <button class="vote-btn safe-btn" onclick="vote(${skill.id}, 'safe')">SAFE</button>
-                        <button class="vote-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">UNSAFE</button>
+                        <button class="action-btn download-btn" onclick="downloadSkill('${skill.repo}', '${skill.author}')">DOWNLOAD</button>
+                        <button class="action-btn github-btn" onclick="viewGithub('${skill.repo}', '${skill.author}')">GITHUB</button>
+                        <button class="action-btn safe-btn" onclick="vote(${skill.id}, 'safe')">SAFE</button>
+                        <button class="action-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">UNSAFE</button>
                     </div>
                     
                     <div style="margin-top: 10px;">
@@ -443,6 +495,18 @@
                 starsHtml += `<span class="star" onclick="rateSkill(${skillId}, ${i})" data-rating="${i}">☆</span>`;
             }
             return starsHtml;
+        }
+        
+        // Download skill function
+        function downloadSkill(repo, author) {
+            const downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
+            window.open(downloadUrl, '_blank');
+        }
+        
+        // View on GitHub function
+        function viewGithub(repo, author) {
+            const githubUrl = `https://github.com/${author}/${repo}`;
+            window.open(githubUrl, '_blank');
         }
         
         // Vote function
