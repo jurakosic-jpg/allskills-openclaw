@@ -161,6 +161,14 @@
             display: flex;
             gap: 8px;
             margin-top: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .voting-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
             flex-wrap: wrap;
         }
         
@@ -470,10 +478,12 @@
                     </div>
                     
                     <div class="actions">
-                        <button class="action-btn download-btn" onclick="downloadSkill('${skill.repo}', '${skill.author}')">DOWNLOAD</button>
-                        <button class="action-btn github-btn" onclick="viewGithub('${skill.repo}', '${skill.author}')">GITHUB</button>
-                        <button class="action-btn safe-btn" onclick="vote(${skill.id}, 'safe')">SAFE</button>
-                        <button class="action-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">UNSAFE</button>
+                        <button class="action-btn download-btn" onclick="downloadSkill('${skill.repo}', '${skill.author}')">📥 DOWNLOAD</button>
+                        <button class="action-btn github-btn" onclick="viewGithub('${skill.repo}', '${skill.author}')">🔗 GITHUB</button>
+                    </div>
+                    <div class="voting-actions">
+                        <button class="action-btn safe-btn" onclick="vote(${skill.id}, 'safe')">✅ SAFE</button>
+                        <button class="action-btn unsafe-btn" onclick="vote(${skill.id}, 'unsafe')">❌ UNSAFE</button>
                     </div>
                     
                     <div style="margin-top: 10px;">
@@ -499,13 +509,23 @@
         
         // Download skill function
         function downloadSkill(repo, author) {
-            const downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
+            // Handle different repo naming conventions
+            let downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
+            // Some repos might be in the openclaw organization
+            if (!author.includes('-')) {
+                downloadUrl = `https://github.com/openclaw/${repo}/archive/main.zip`;
+            }
             window.open(downloadUrl, '_blank');
         }
         
         // View on GitHub function
         function viewGithub(repo, author) {
-            const githubUrl = `https://github.com/${author}/${repo}`;
+            // Handle different repo naming conventions
+            let githubUrl = `https://github.com/${author}/${repo}`;
+            // Some repos might be in the openclaw organization
+            if (!author.includes('-')) {
+                githubUrl = `https://github.com/openclaw/${repo}`;
+            }
             window.open(githubUrl, '_blank');
         }
         
