@@ -320,7 +320,7 @@
                 name: "Apple Calendar",
                 description: "Apple Calendar.app integration for macOS. CRUD operations for events, search, and multi-calendar support.",
                 author: "jurakosic-jpg",
-                repo: "apple-calendar",
+                repo: "openclaw",
                 stars: 4.5,
                 downloads: 1250,
                 installs: 890,
@@ -334,7 +334,7 @@
                 name: "Twitter/X CLI",
                 description: "X/Twitter CLI for reading, searching, posting, and engagement via cookies.",
                 author: "openclaw",
-                repo: "bird",
+                repo: "openclaw",
                 stars: 4.2,
                 downloads: 3420,
                 installs: 2100,
@@ -347,8 +347,8 @@
                 id: 3,
                 name: "GitHub Integration",
                 description: "Interact with GitHub using the gh CLI. Issue, PR, CI run management.",
-                author: "github",
-                repo: "github-skills",
+                author: "openclaw",
+                repo: "openclaw",
                 stars: 4.8,
                 downloads: 5670,
                 installs: 4200,
@@ -362,7 +362,7 @@
                 name: "Weather Data",
                 description: "Get current weather and forecasts (no API key required).",
                 author: "openclaw",
-                repo: "weather",
+                repo: "openclaw",
                 stars: 3.9,
                 downloads: 2100,
                 installs: 1800,
@@ -375,8 +375,8 @@
                 id: 5,
                 name: "PDF Editor",
                 description: "Edit PDFs with natural-language instructions using nano-pdf CLI.",
-                author: "pdf-tools",
-                repo: "nano-pdf",
+                author: "openclaw",
+                repo: "openclaw",
                 stars: 4.6,
                 downloads: 1890,
                 installs: 1500,
@@ -389,8 +389,8 @@
                 id: 6,
                 name: "RSS Feed Monitor",
                 description: "Monitor blogs and RSS/Atom feeds for updates using blogwatcher CLI.",
-                author: "feed-monitor",
-                repo: "blogwatcher",
+                author: "openclaw",
+                repo: "openclaw",
                 stars: 4.1,
                 downloads: 980,
                 installs: 750,
@@ -403,8 +403,8 @@
                 id: 7,
                 name: "Desktop Automation",
                 description: "Advanced desktop automation with mouse, keyboard, and screen control.",
-                author: "automation",
-                repo: "desktop-control",
+                author: "openclaw",
+                repo: "openclaw",
                 stars: 4.7,
                 downloads: 1450,
                 installs: 1100,
@@ -417,8 +417,8 @@
                 id: 8,
                 name: "Image Analysis",
                 description: "Analyze images with configured image models for AI-powered insights.",
-                author: "vision",
-                repo: "image-analysis",
+                author: "openclaw",
+                repo: "openclaw",
                 stars: 4.4,
                 downloads: 2340,
                 installs: 1900,
@@ -509,22 +509,28 @@
         
         // Download skill function
         function downloadSkill(repo, author) {
-            // Handle different repo naming conventions
-            let downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
-            // Some repos might be in the openclaw organization
-            if (!author.includes('-')) {
-                downloadUrl = `https://github.com/openclaw/${repo}/archive/main.zip`;
+            // For demo purposes, we'll use a general openclaw download
+            // In a real implementation, this would use the specific repo
+            let downloadUrl;
+            if (repo === 'openclaw') {
+                // If it's the main openclaw repo
+                downloadUrl = 'https://github.com/openclaw/openclaw/archive/main.zip';
+            } else {
+                // Otherwise construct from author and repo
+                downloadUrl = `https://github.com/${author}/${repo}/archive/main.zip`;
             }
             window.open(downloadUrl, '_blank');
         }
         
         // View on GitHub function
         function viewGithub(repo, author) {
-            // Handle different repo naming conventions
-            let githubUrl = `https://github.com/${author}/${repo}`;
-            // Some repos might be in the openclaw organization
-            if (!author.includes('-')) {
-                githubUrl = `https://github.com/openclaw/${repo}`;
+            let githubUrl;
+            if (repo === 'openclaw') {
+                // If it's the main openclaw repo
+                githubUrl = 'https://github.com/openclaw/openclaw';
+            } else {
+                // Otherwise construct from author and repo
+                githubUrl = `https://github.com/${author}/${repo}`;
             }
             window.open(githubUrl, '_blank');
         }
