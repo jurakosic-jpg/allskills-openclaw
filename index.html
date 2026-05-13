@@ -422,18 +422,20 @@
             const mockSkills = [
                 {
                     id: 2,
-                    name: "Twitter/X CLI",
-                    description: "X/Twitter CLI for reading, searching, posting, and engagement via cookies.",
-                    author: "openclaw",
-                    repo: "bird",
-                    stars: 87,
-                    forks: 34,
-                    downloads: 8420,
-                    installs: 6100,
+                    name: "TweetClaw",
+                    description: "OpenClaw X/Twitter automation plugin for search tweets, reply search, posting, follower export, monitors, webhooks, and giveaway draws through structured Xquik endpoints.",
+                    author: "Xquik-dev",
+                    repo: "tweetclaw",
+                    githubUrl: "https://github.com/Xquik-dev/tweetclaw",
+                    downloadUrl: "https://clawhub.ai/plugins/@xquik/tweetclaw",
+                    stars: 37,
+                    forks: 3,
+                    downloads: 48,
+                    installs: 0,
                     safety: "safe",
                     rating: 4.3,
-                    tags: ["twitter", "social", "posting"],
-                    lastUpdated: "2026-01-20"
+                    tags: ["twitter", "x", "automation", "openclaw"],
+                    lastUpdated: "2026-05-13"
                 },
                 {
                     id: 3,
@@ -560,8 +562,8 @@
                     </div>
                     
                     <div class="actions">
-                        <button class="action-btn download-btn" onclick="downloadSkill('${skill.repo}', '${skill.author}')">📥 DOWNLOAD</button>
-                        <button class="action-btn github-btn" onclick="viewGithub('${skill.repo}', '${skill.author}')">🔗 GITHUB</button>
+                        <button class="action-btn download-btn" onclick="downloadSkill('${skill.downloadUrl || ''}', '${skill.repo}', '${skill.author}')">📥 DOWNLOAD</button>
+                        <button class="action-btn github-btn" onclick="viewGithub('${skill.githubUrl || ''}', '${skill.repo}', '${skill.author}')">🔗 GITHUB</button>
                     </div>
                     
                     <div class="comments-section">
@@ -580,19 +582,29 @@
         }
         
         // Download skill function
-        function downloadSkill(repo, author) {
+        function downloadSkill(downloadUrl, repo, author) {
+            if (downloadUrl) {
+                window.open(downloadUrl, '_blank');
+                return;
+            }
+
             // All OpenClaw skills are in the main openclaw repo under skills/ directory
             // So we'll download the main repo which contains all skills
-            const downloadUrl = 'https://github.com/openclaw/openclaw/archive/refs/heads/main.zip';
-            window.open(downloadUrl, '_blank');
+            const fallbackDownloadUrl = 'https://github.com/openclaw/openclaw/archive/refs/heads/main.zip';
+            window.open(fallbackDownloadUrl, '_blank');
         }
         
         // View on GitHub function
-        function viewGithub(repo, author) {
+        function viewGithub(githubUrl, repo, author) {
+            if (githubUrl) {
+                window.open(githubUrl, '_blank');
+                return;
+            }
+
             // All OpenClaw skills are in the main openclaw repo under skills/ directory
             // So we'll link to the specific skill folder in the main repo
-            const githubUrl = `https://github.com/openclaw/openclaw/tree/main/skills/${repo}`;
-            window.open(githubUrl, '_blank');
+            const fallbackGithubUrl = `https://github.com/openclaw/openclaw/tree/main/skills/${repo}`;
+            window.open(fallbackGithubUrl, '_blank');
         }
         
         // Submit comment function
